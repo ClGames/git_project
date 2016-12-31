@@ -5,7 +5,8 @@ require.config({
         'jquery-ui': 'lib/jquery-ui',
         'touchpunch': 'lib/jquery-ui-touch-punch',
         'underscore': 'lib/underscore',
-        'backbone': 'lib/backbone'
+        'backbone': 'lib/backbone',
+        'store': 'lib/store'
     },
     shim: {
         'underscore': {
@@ -17,19 +18,31 @@ require.config({
         },
         'touchpunch': {
             deps: ['jquery', 'jquery-ui']
+        },
+        'store': {
+            exports: 'Store'
         }
-        /*
-        'jquery': {
-            deps: ['jquery-ui']
-        }
-        */
+        
     }
 });
 
-require(['backbone', 'touchpunch'], function() {
+require(['backbone', 'jquery', 'jquery-ui', 'touchpunch', 'store'], function(Backbone, $, JQueryUI, TouchPunch, Store) {
     console.log(_);
     console.log(Backbone);
     console.log('main.js start');
+    console.log('Store = ' + Store.get('gameData'));
     
-    $('#stage').draggable();
+    if (Store.get('gameData')) {
+        var gameData = Store.get('gameData');
+        $('#stage').css({left:gameData.position.left, top:gameData.position.top});
+    }
+    
+    $('#stage').draggable({
+        stop: () => {
+            var gameData = {
+                position: $('#stage').position()
+            };
+            Store.set('gameData', gameData);
+        }
+    });
 });
