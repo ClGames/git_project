@@ -37,6 +37,8 @@ require(['backbone', 'jquery', 'jquery-ui', 'touchpunch', 'store'], function(Bac
         $('#stage').css({left:gameData.position.left, top:gameData.position.top});
     }
     
+    $('#loading-page').hide();
+    
     $('#stage').draggable({
         stop: () => {
             var gameData = {
