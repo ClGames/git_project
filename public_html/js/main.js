@@ -34,15 +34,16 @@ require(['backbone', 'jquery', 'jquery-ui', 'touchpunch', 'store'], function(Bac
     
     if (Store.get('gameData')) {
         var gameData = Store.get('gameData');
-        $('#stage').css({left:gameData.position.left, top:gameData.position.top});
+        $('#square').css({left:gameData.position.left, top:gameData.position.top});
     }
     
     $('#loading-page').hide();
     
-    $('#stage').draggable({
+    $('#square').draggable({
+        containment: '#stage',
         stop: () => {
             var gameData = {
-                position: $('#stage').position()
+                position: $('#square').position()
             };
             Store.set('gameData', gameData);
         }
